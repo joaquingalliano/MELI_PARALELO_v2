@@ -31,6 +31,12 @@
 
 .nav-right {
     float: right;
+    vertical-align: middle;
+    list-style-type: none;
+}
+
+.nav-right li {
+    float: left;
 }
 
 .nav-container h2 {
@@ -78,4 +84,35 @@
     border: 0;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+.navbar-login {
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session {
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size {
+    font-size: 87px;
+}
+
+.dropdown-menu {
+    color: black;
+    width: 305px;
+    margin-left: -237px;
+}
+
+.dropdown {
+    margin: 7px 8px;
+}
+
+.dropdown a, .dropdown a:hover, .dropdown a:active {
+    color: white;
+    text-decoration: none;
 }

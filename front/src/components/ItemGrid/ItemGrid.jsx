@@ -47,10 +47,12 @@ class ItemCell extends Component {
                         <img src={imagen} alt="thumbnail" />
                     </div>
                     <div className="itemDescription">
-                        <p>
+                        <div>
                             <h4>{title}</h4>
-                            Ubicacion: {ciudad} - {estado} - {pais}
-                        </p>
+                            <p>
+                                Ubicacion: {ciudad} - {estado} - {pais}
+                            </p>
+                        </div>
                     </div>
                     <div className="itemPrice">
                         ${precio}

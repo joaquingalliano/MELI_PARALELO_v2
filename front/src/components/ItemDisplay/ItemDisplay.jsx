@@ -10,39 +10,51 @@ class ItemDisplay extends Component {
         super();
 
         this.state = {
-            listing: 'grid'
+            listing: 'grid',
+            categorias: []
         }
 
         this.handleListing = this.handleListing.bind(this);
     }
 
     componentWillMount() {
-        //localStorage.setItem("user","JUAN PEREZ");
-        //localStorage.removeItem("user");
-        //localStorage.setItem("categories", "MLA1,MLA4");
-
-        if(localStorage.getItem("user") != null){
-            if(localStorage.getItem("categorias") != null){
-                let urlItemsCategoriaApi = 'http://localhost:7070/items/q=' + localStorage.getItem("categorias");
-                fetch(urlItemsCategoriaApi)
+        //Busco items
+        if (this.props.match.params.keywords) {
+            console.log("SEARCH!");
+        }
+        else {
+            if(localStorage.getItem("user") != null) {
+                if(localStorage.getItem("categorias") != null) {
+                    let urlItemsCategoriaApi = 'http://localhost:7070/items/q=' + localStorage.getItem("categorias");
+                    fetch(urlItemsCategoriaApi)
                     .then((response) => {
                         return response.json();
                     })
                     .then((items) => {
                         this.setState({ items: items })
                     })
-            }
-        } else {
-            let urlItemsApi = "http://localhost:7070/items";
-            fetch(urlItemsApi)
+                }
+            } else {
+                let urlItemsApi = "http://localhost:7070/items";
+                fetch(urlItemsApi)
                 .then((response) => {
                     return response.json()
                 })
                 .then((items) => {
                     this.setState({ items: items })
                 })
+            }
         }
 
+        //Busco las categorias
+        let urlCategorias = "http://localhost:7070/categories";
+        fetch(urlCategorias)
+        .then((response) => {
+            return response.json();
+        })
+        .then((data) => {
+            this.setState({categorias: data});
+        });
     }
 
     handleListing(e) {
@@ -64,7 +76,7 @@ class ItemDisplay extends Component {
             </div>
         );
 
-        if (!this.state.items) {
+        if (!this.state.items || !this.state.categorias) {
             return (
                 <div style={{"marginTop": 200}}>
                     <LoadingSpinner />
@@ -73,6 +85,7 @@ class ItemDisplay extends Component {
         }
 
         let listing;
+        let categorias = this.state.categorias;
 
         switch(this.state.listing) {
             case 'grid':
@@ -90,10 +103,33 @@ class ItemDisplay extends Component {
 
         return (
             <div>
+                <Categorias categorias={categorias}/>
                 {buttonGroup}
                 <div className="itemListing">
                     {listing}
                 </div>
+            </div>
+        );
+    }
+}
+
+class Categorias extends Component {
+    render() {
+        let categorias = this.props.categorias;
+        let options = [];
+
+        categorias.map((cat, i) => {
+            let optionHtml = (
+                <option key={i} value={cat.id}>{cat.name}</option>
+            );
+            options.push(optionHtml);
+        });
+
+        return (
+            <div className="categoriasContainer">
+                <select>
+                    {options}
+                </select>
             </div>
         );
     }

@@ -17,9 +17,10 @@ function login(username, password) {
 
         userService.login(username, password)
             .then(
-                user => { 
+                user => {
                     dispatch(success(user));
-                    history.push('/');
+                    //history.push('/');
+                    window.location.href = "/";
                 },
                 error => {
                     dispatch(failure(error));
@@ -44,7 +45,7 @@ function register(user) {
 
         userService.register(user)
             .then(
-                user => { 
+                user => {
                     dispatch(success());
                     history.push('/login');
                     dispatch(alertActions.success('Registrado correctamente'));
@@ -84,7 +85,7 @@ function _delete(id) {
 
         userService.delete(id)
             .then(
-                user => { 
+                user => {
                     dispatch(success(id));
                 },
                 error => {

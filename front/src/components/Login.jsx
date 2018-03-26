@@ -7,12 +7,9 @@ import { userActions } from '../_actions';
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-
-        
-
         // reset login status
-        this.props.dispatch(userActions.logout());
-        
+        //this.props.dispatch(userActions.logout());
+
         this.state = {
             username: '',
             password: '',
@@ -62,8 +59,7 @@ class LoginPage extends React.Component {
                     </div>
                     <div className="form-group">
                         <button className="btn btn-primary">Ingresar</button>
-                        {loggingIn
-                            }
+                        {loggingIn}
                         <a href="/register" className="btn btn-link">Registrarse</a>
                     </div>
                 </form>
@@ -82,4 +78,4 @@ function mapStateToProps(state) {
 //export default LoginPage
 
  export default connect(mapStateToProps)(LoginPage);
- //export { connectedLoginPage as LoginPage }; 
+ //export { connectedLoginPage as LoginPage };

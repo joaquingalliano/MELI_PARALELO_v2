@@ -5,7 +5,7 @@
     right: 0;
     height: calc(100% - 60px);
     z-index: 998;
-    background-color: white;
+    background-color: #34495e !important;
     width: 250px;
     margin: 0;
     padding: 15px;
@@ -112,6 +112,10 @@
 .chatMessageUser {
     margin-top: -25px;
     color: #bdc3c7;
+}
+
+.chatMessageText {
+    word-wrap: break-word
 }
 
 @keyframes FadeIn {

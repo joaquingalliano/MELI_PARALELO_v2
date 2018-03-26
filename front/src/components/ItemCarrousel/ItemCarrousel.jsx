@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import NotFound from '../NotFound/NotFound';
 import {Link} from 'react-router-dom';
 import './ItemCarrousel.css';
 
@@ -39,24 +40,29 @@ class ItemCarrousel extends Component {
     render() {
         let currentIndex = this.state.currentItemIndex;
         let item = this.props.data[currentIndex];
+        if (item) {
+            return(
+                <div className="carrouselContainer">
+                    <button className="carrouselButton glyphicon glyphicon-chevron-left"
+                        style={{"left": -10}} direction="left" onClick={this.handleChangeItem}></button>
+                    <button className="carrouselButton glyphicon glyphicon-chevron-right"
+                        style={{"right": -10}} direction="right" onClick={this.handleChangeItem}></button>
+                    <CarrouselItem
+                        itemID={item.item_id}
+                        title={item.title}
+                        state={item.state}
+                        country={item.country}
+                        city={item.city}
+                        price={item.price}
+                        description={item.description}
+                        image={item.image}/>
+                </div>
+            )
+        }
+        else {
+            return (NotFound);
+        }
 
-        return(
-            <div className="carrouselContainer">
-                <button className="carrouselButton glyphicon glyphicon-chevron-left"
-                    style={{"left": -10}} direction="left" onClick={this.handleChangeItem}></button>
-                <button className="carrouselButton glyphicon glyphicon-chevron-right"
-                    style={{"right": -10}} direction="right" onClick={this.handleChangeItem}></button>
-                <CarrouselItem
-                    itemID={item.item_id}
-                    title={item.title}
-                    state={item.state}
-                    country={item.country}
-                    city={item.city}
-                    price={item.price}
-                    description={item.description}
-                    image={item.image}/>
-            </div>
-        )
     }
 }
 
