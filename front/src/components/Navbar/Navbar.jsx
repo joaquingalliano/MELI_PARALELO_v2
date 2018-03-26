@@ -11,6 +11,10 @@ class Navbar extends Component {
 
     search(e) {
         let value  = this.refs.searchText.value;
+        if (!value || value.length <= 2) {
+            alert("Porfavor ingrese un valor valido!");
+            return;
+        }
         window.location.href = "/search/" + value;
     }
 
@@ -22,7 +26,7 @@ class Navbar extends Component {
     render() {
         let user = JSON.parse(localStorage.getItem('user'));
         let shoppingCart = (
-            <a href="/"><button className="btn btn-nav glyphicon glyphicon-shopping-cart"></button></a>
+            <a href="/carrito"><button className="btn btn-nav glyphicon glyphicon-shopping-cart"></button></a>
         );
         let btnLogin = (
             <div>

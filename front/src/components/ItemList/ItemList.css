@@ -1,4 +1,4 @@
-a, a:hover, a:active {
+.itemRow a, .itemRow a:hover, .itemRow a:active {
     text-decoration: none;
     color: black;
 }

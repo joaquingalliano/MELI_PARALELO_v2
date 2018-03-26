@@ -4,6 +4,7 @@ import NotFound from './NotFound/NotFound';
 import Item from './Item/Item';
 import LoginPage from './Login';
 import RegisterPage from './Register';
+import ShoppingCart from './ShoppingCart/ShoppingCart';
 import {
     BrowserRouter as Router,
     Route
@@ -19,6 +20,7 @@ class App extends Component {
                     <Route exact path="/items/:itemID" component={Item}/>
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/register" component={RegisterPage} />
+                    <Route exact path="/carrito" component={ShoppingCart} />
                 </div>
             </Router>
         );
