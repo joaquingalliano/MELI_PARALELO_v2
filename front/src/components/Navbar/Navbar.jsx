@@ -39,7 +39,7 @@ class Navbar extends Component {
                 <li className="dropdown">
                     <a href="#" className="dropdown-toggle" data-toggle="dropdown">
                         <span className="glyphicon glyphicon-user"></span> 
-                        <strong>{user.firstName} &nbsp;</strong>
+                        <strong>{user.name} &nbsp;</strong>
                         <span className="glyphicon glyphicon-chevron-down"></span>
                     </a>
                     <ul className="dropdown-menu">
@@ -52,8 +52,8 @@ class Navbar extends Component {
                                         </p>
                                     </div>
                                     <div className="col-lg-8">
-                                        <p className="text-left"><strong>{user.firstName + " " + user.lastName}</strong></p>
-                                        <p className="text-left small">{user.username}</p>
+                                        <p className="text-left"><strong>{user.name + " " + user.surname}</strong></p>
+                                        <p className="text-left small">{user.email}</p>
                                     </div>
                                 </div>
                             </div>

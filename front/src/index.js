@@ -5,8 +5,7 @@ import App from './components/App';
 import Chat from './components/Chat/Chat';
 import { store } from './_helpers';
 import { Provider } from 'react-redux';
-import { configureFakeBackend } from './_helpers';
-configureFakeBackend();
+
 
 ReactDOM.render(<Navbar />, document.getElementById('navbar'));
 ReactDOM.render(<Chat/>, document.getElementById('chat'));
