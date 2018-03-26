@@ -141,13 +141,6 @@ class CarritoService {
         return carrito
     }
 
-
-
-    public Carrito getCarrito(String id) {
-        return carritos.get(id);
-    }
-
-
     /*
     private void failIfInvalid(String name, String img) throws IllegalArgumentException{
         if ( (name == null || name.isEmpty()) || (img == null || img.isEmpty() )){
@@ -155,103 +148,4 @@ class CarritoService {
         }
     }
     */
-
-    public Carrito updateCarritoByIdCarrito(String idCarrito, ArrayList<Item> items){
-        //failIfInvalid(name, img);
-        List<Carrito> listaCompleta = getAllCarritos();
-        Carrito updatedCarrito = new Carrito();
-        for (Carrito car : listaCompleta){
-            if(car.getId().equals(idCarrito)){
-                car.setItems(items);
-                break;
-            }
-        }
-        return updatedCarrito;
-    }
-
-    public Carrito updateCarritoByUserId(ArrayList<Item> items, Integer userId){
-        //failIfInvalid(name, img);
-        List<Carrito> listaCompleta = getAllCarritos();
-        Carrito updatedCarrito = new Carrito();
-        for (Carrito car : listaCompleta){
-            if(car.getUserId() == userId){
-                car.setItems(items);
-                break;
-            }
-        }
-        return updatedCarrito;
-    }
-
-    /*
-    public Carrito agregarItemCarritoByUser(Integer userId, Item item){
-        Carrito car = getCarritoByUser(userId);
-        car.addOneItem(item);
-        return car;
-    }
-    */
-
-    public Carrito agregarItemCarritoByUser(String userIdParam, String itemIdParam){
-        Integer userId = Integer.parseInt(userIdParam);
-        Carrito car = getCarritoByUser(userId);
-
-        //consulto la data del item que me mandaron
-        //obtenerItemById
-
-        //creo mi item
-        //Item item = new Item();
-
-        //agrego item al carrito
-        //car.addOneItem(item);
-        return car;
-    }
-
-
-    def obtenerItemById(String direccion){
-
-        DataService dataService = new DataService()
-
-        def url = 'https://api.mercadolibre.com/sites/MLA/categories'
-        def inputStream = dataService.findByApi(url)
-
-        System.out.println(inputStream);
-
-        /*
-        def lat = inputStream.results.geometry.location.lat
-        def lng = inputStream.results.geometry.location.lng
-        //obtengo el valor de cada uno
-        def latitud = lat[0]
-        def longitud = lng[0]
-        return [latitud, longitud]
-        */
-    }
-
-    public Carrito modificarCantidadItemByUser(Integer userId, String itemId, Integer nuevaCantidad){
-        Carrito car = getCarritoByUser(userId);
-        Item it = car.getOneItem(itemId);
-        it.setCantidad(nuevaCantidad);
-        return car;
-    }
-
-    public Carrito deleteCarrito(String id){
-        //failIfNotExist(id);
-        Carrito carrito = getCarrito(id);
-        carritos.remove(carrito.getId(), carrito);
-        return carrito;
-    }
-
-    /*
-    private void failIfNotExist(String id) throws IndexOutOfBoundsException{
-        List<Category> listaCategorias = getAllCategories();
-        Category category = getCategory(id);
-        if(!listaCategorias.contains(category)){
-            throw new IndexOutOfBoundsException("La categoría no existe");
-        }
-    }
-    */
-
-
-
-
-
-
 }

@@ -9,6 +9,34 @@ class ItemService {
 
     private Map<String, Item> items = new HashMap<String,Item>();
 
+    def Object getInfoItem(String itemId) {
+        DataService dataService = new DataService()
+
+        //def url = 'http://localhost:8080/items/' + itemid
+        //def url = 'http://localhost:8080/items/' + itemid + '?user_id=' + idUsuario
+
+        //URL del mockServer
+        def url = 'http://localhost:7070/items/q=' + itemId
+
+        try{
+            def inputStream = dataService.findByApi(url)
+
+            for (Object obj : inputStream) {
+                return obj
+            }
+        }catch(Exception ex){
+            return null
+        }
+        return null
+    }
+
+    public Item createItem(String idItem, Integer cantidad, Double precio, String imagen, String nombre, String idCarrito){
+        Item it = new Item(idItem: idItem, cantidad: cantidad, precio: precio, imagen: imagen, nombre: nombre, carrito: idCarrito)
+        items.put(it.idItem, it);
+        return it;
+    }
+
+    /*
     def ArrayList<Item> setData(String idCarrito) {
         DataService dataService = new DataService()
         def url = 'http://localhost:7070/items'
@@ -33,32 +61,12 @@ class ItemService {
                 break
             }
         }
-        /*
+
         itemReturn << [nombre: "Item", precio: "precio",
                        cantidad: "cantidad", imagen: "imagen"]
-        */
+
         return itemReturn
+
     }
-
-    def Object getInfoItem(String itemId) {
-        DataService dataService = new DataService()
-        def url = 'http://localhost:7070/items/q=' + itemId
-        try{
-            def inputStream = dataService.findByApi(url)
-
-            for (Object obj : inputStream) {
-                return obj
-            }
-        }catch(Exception ex){
-            return null
-        }
-        return null
-    }
-
-    public Item createItem(String idItem, Integer cantidad, Double precio, String imagen, String nombre, String idCarrito){
-        Item it = new Item(idItem: idItem, cantidad: cantidad, precio: precio, imagen: imagen, nombre: nombre, carrito: idCarrito)
-        items.put(it.idItem, it);
-        return it;
-    }
-
+     */
 }

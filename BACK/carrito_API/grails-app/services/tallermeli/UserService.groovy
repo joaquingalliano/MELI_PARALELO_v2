@@ -7,7 +7,12 @@ class UserService {
 
     def Integer getCuponesUsuario(Integer idUsuario) {
         DataService dataService = new DataService()
+
+        //def url = 'http://localhost:8080/users/' + idUsuario
+
+        //URL del mockServer
         def url = 'http://localhost:7070/users/q=' + idUsuario
+
         try{
             def inputStream = dataService.findByApi(url)
 
