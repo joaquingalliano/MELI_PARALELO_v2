@@ -5,44 +5,48 @@ class AdminView extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = { items: [], usuarios: [] };
+        this.state = { items: [], usuarios: [], user:{} };
     }
 
     componentWillMount() {
-        //localStorage.setItem("user","JUAN PEREZ");
-        //localStorage.removeItem("user");
-        //localStorage.setItem("userType", "admin");
-        let user = JSON.parse(localStorage.getItem("user"))
-        //console.log(localStorage.getItem("user"));
-        //console.log(JSON.parse(localStorage.getItem("user")).username);
-        //if(user != null){
-            //if(user.username === "admin@admin.com"){
-                fetch('http://localhost:7070/items')
+        this.state.user = JSON.parse(localStorage.getItem("user"));
+        if(this.state.user != null){
+            if(this.state.user.username === "admin@admin.com"){
+                fetch('http://localhost:8080/items')
                     .then((response) => {
                         return response.json()
                     })
                     .then((items) => {
-                        //console.log(items);
                         this.setState({ items: items })
                     })
 
-                fetch('http://localhost:7070/stats')
+                fetch('http://localhost:8080/stats')
                     .then((response) => {
                         return response.json()
                     })
                     .then((usuarios) => {
-                        //console.log(items);
                         this.setState({ usuarios: usuarios })
                     })
-            //}
-        //}
+            }
+        }
     }
 
     render() {
+        if(this.state.user != null){
+            if(this.state.user.username != "admin@admin.com"){
+                return(
+                    <div><h3>No tiene los permisos necesarios.</h3></div>
+                )
+            }
+        }
+        else{
+            return(
+                <div><h3>Debe iniciar sesion para acceder a esta sección.</h3></div>
+            )
+        }
 
         this.state.items.sort((a, b) => parseInt(b.query_count) - parseInt(a.query_count) );
         this.state.usuarios.sort((a,b) => parseInt(b.bought_items) - parseInt(a.bought_items) );
-        //console.log(this.state.usuarios);
         let cantItems = 10 <= this.state.items.length ? 10 : this.state.items.length;
         let cantUsers = 10 <= this.state.usuarios.length ? 10 : this.state.usuarios.length;
         let arrayItems = [];
@@ -57,30 +61,61 @@ class AdminView extends React.Component {
             arrayUsers.push(this.state.usuarios[i]);
             dataUsers.push([this.state.usuarios[i].user_id,parseInt(this.state.usuarios[i].visit_items),parseInt(this.state.usuarios[i].bought_items)]);
         }
+
         return (
                 <div>
-                    <div id="items" className="table-responsive">
-                        <h2> Resumen de Visitas y Compras por Item</h2>
-                        <table className="table table-hover">
-                            <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
-                            <ItemsList items={arrayItems} />
-                        </table>
-                    </div>
-
-
-                    <ChartView data={dataItems} chartID={"itemsChart"}/>
-
-
-                    <div id="usuarios" className="table-responsive">
-                        <h2> Resumen de Visitas y Compras por Usuario</h2>
-                        <table className="table table-hover">
-                            <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
-                            <UsuariosList usuarios={arrayUsers}/>
-                        </table>
-                    </div>
-                    <ChartView data={dataUsers} chartID={"usersChart"}/>
+                    <Items arrayItems={arrayItems} dataItems={dataItems} />
+                    <Users arrayUsers={arrayUsers} dataUsers={dataUsers} />
                 </div>
             )
+    }
+
+}
+
+
+class Items extends React.Component{
+    render(){
+        if(this.props.arrayItems.length > 0){
+            return(
+                <div id="items" className="table-responsive">
+                    <h2> Resumen de Visitas y Compras por Item</h2>
+                    <table className="table table-hover">
+                        <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
+                        <ItemsList items={this.props.arrayItems} />
+                    </table>
+                    <ChartView data={this.props.dataItems} chartID={"itemsChart"}/>
+                </div>
+            )
+        }
+        else
+        {
+            return(
+                <div><h3>No existen datos sobre items para graficar.</h3></div>
+            )
+        }
+    }
+}
+
+class Users extends React.Component{
+    render(){
+        console.log(this.props.arrayUsers);
+        if(this.props.arrayUsers.length > 0){
+            return(
+                <div id="usuarios" className="table-responsive">
+                    <h2> Resumen de Visitas y Compras por Usuario</h2>
+                    <table className="table table-hover">
+                        <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
+                        <UsuariosList usuarios={this.props.arrayUsers}/>
+                    </table>
+                    <ChartView data={this.props.dataUsers} chartID={"usersChart"}/>
+                </div>
+            )
+        }
+        else{
+            return(
+                <div><h3>No existen datos sobre usuarios para graficar.</h3></div>
+            )
+        }
     }
 }
 
