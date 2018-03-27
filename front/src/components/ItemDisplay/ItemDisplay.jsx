@@ -4,6 +4,7 @@ import ItemGrid             from '../ItemGrid/ItemGrid';
 import ItemList             from '../ItemList/ItemList';
 import ItemCarrousel        from '../ItemCarrousel/ItemCarrousel';
 import LoadingSpinner       from '../LoadingSpinner/LoadingSpinner';
+import queryString          from 'query-string';
 
 class ItemDisplay extends Component {
     constructor() {
@@ -11,21 +12,41 @@ class ItemDisplay extends Component {
 
         this.state = {
             listing: 'grid',
-            categorias: []
+            categorias: [],
+            precioDesde: 0,
+            precioHasta: 200
         }
 
         this.handleListing = this.handleListing.bind(this);
+        this.filtrar = this.filtrar.bind(this);
+        this.changePrecio = this.changePrecio.bind(this);
     }
 
     componentWillMount() {
+        let urlItemsApi = "http://localhost:8080/items";
+        let urlItemsCategoriaApi = 'http://localhost:8080/items/q=' + localStorage.getItem("categorias");
+        let urlCategorias = "http://localhost:8080/categories";
+
         //Busco items
-        if (this.props.match.params.keywords) {
-            console.log("SEARCH!");
+        if (this.props.location.search) {
+            let params = queryString.parse(this.props.location.search);
+            let categoria = params.categories;
+            let urlSearch = "http://localhost:8080/items/search?categories=" + categoria;
+            fetch(urlSearch)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                console.log(data);
+                this.setState({
+                    items: data
+                });
+            })
+            params.categories;
         }
         else {
             if(localStorage.getItem("user") != null) {
                 if(localStorage.getItem("categorias") != null) {
-                    let urlItemsCategoriaApi = 'http://localhost:7070/items/q=' + localStorage.getItem("categorias");
                     fetch(urlItemsCategoriaApi)
                     .then((response) => {
                         return response.json();
@@ -35,7 +56,6 @@ class ItemDisplay extends Component {
                     })
                 }
             } else {
-                let urlItemsApi = "http://localhost:7070/items";
                 fetch(urlItemsApi)
                 .then((response) => {
                     return response.json()
@@ -47,7 +67,6 @@ class ItemDisplay extends Component {
         }
 
         //Busco las categorias
-        let urlCategorias = "http://localhost:7070/categories";
         fetch(urlCategorias)
         .then((response) => {
             return response.json();
@@ -62,6 +81,24 @@ class ItemDisplay extends Component {
         let listing = target.getAttribute('listing');
 
         this.setState({ listing: listing });
+    }
+
+    changePrecio(e) {
+        let target = e.target;
+        let value = target.value;
+        let name = target.name;
+
+        this.setState({
+            [name]: value
+        });
+    }
+
+    filtrar(e) {
+        let catSeleccionada = this.refs.categoriaSeleccionada.value;
+        if (catSeleccionada != 0) {
+            let urlSearchCategory = "/search?categories=" + catSeleccionada;
+            window.location.href = urlSearchCategory;
+        }
     }
 
     render() {
@@ -85,7 +122,6 @@ class ItemDisplay extends Component {
         }
 
         let listing;
-        let categorias = this.state.categorias;
 
         switch(this.state.listing) {
             case 'grid':
@@ -101,21 +137,7 @@ class ItemDisplay extends Component {
                 listing = ( <div><h1>Error!</h1></div> );
         }
 
-        return (
-            <div>
-                {buttonGroup}
-                <Filtros categorias={categorias}/>
-                <div className="itemListing col-xs-offset-3 col-xs-7">
-                    {listing}
-                </div>
-            </div>
-        );
-    }
-}
-
-class Filtros extends Component {
-    render() {
-        let categorias = this.props.categorias;
+        let categorias = this.state.categorias;
         let options = [];
 
         categorias.map((cat, i) => {
@@ -126,38 +148,26 @@ class Filtros extends Component {
         });
 
         return (
-            <div className="col-xs-3 filtros">
-                <h2>Filtros</h2>
-                <div className="form-group">
-                    <h5>Categoria</h5>
-                    <select id="categorias" name="categorias" className="form-control">
-                        <option value="#">Seleccione una categoria..</option>
-                        {options}
-                    </select>
-                </div>
-                <div className="form-group">
-                    <label for="precioDesde" className="control-label">Rango de precios</label>
-                    <div className="container-fluid form-horizontal">
-                        <div className="form-group">
-                            <label for="precioDesde" className="col-xs-2">De: </label>
-                            <div className="col-xs-4">
-                                <input type="number"
-                                    className="form-control precio"
-                                    min="0"
-                                    name="precioDesde"
-                                    placeholder="$100"/>
-                            </div>
-                            <label for="precioHasta" className="col-xs-2">Hasta:</label>
-                            <div className="col-xs-4">
-                                <input type="number"
-                                    className="form-control precio"
-                                    min="0"
-                                    name="precioHasta"
-                                    placeholder="$200"/>
-                            </div>
-                        </div>
+            <div>
+                {buttonGroup}
+                <div className="col-xs-3 filtros">
+                    <h2>Filtros</h2>
+                    <div className="form-group">
+                        <h5>Categoria</h5>
+                        <select ref="categoriaSeleccionada" id="categorias"
+                            name="categorias"
+                            className="form-control"
+                            >
+                            <option value="0">Seleccione una categoria..</option>
+                            {options}
+                        </select>
                     </div>
-                    <button className="btn btnFiltrar">Filtrar</button>
+                    <button className="btn btnFiltrar"
+                        onClick={this.filtrar}>Filtrar</button>
+                </div>
+
+                <div className="itemListing col-xs-offset-3 col-xs-7">
+                    {listing}
                 </div>
             </div>
         );

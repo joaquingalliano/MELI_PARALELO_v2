@@ -108,6 +108,11 @@ class Item extends Component {
         this.setState({total: total})
     }
 
+    agregarACarrito(e) {
+
+        console.log(e);
+    }
+
     render() {
         let item;
         let description;
@@ -139,7 +144,7 @@ class Item extends Component {
 
         return (
             <div>
-                <div className="col-xs-12 itemContainer">
+                <div className="col-xs-8 col-sm-8 col-sm-offset-2 itemContainer">
                     <div className="itemHeader">
                         <Carrousel imagenes={item ? this.state.item.pictures : ""}/>
                         <div className="itemData">
@@ -155,8 +160,8 @@ class Item extends Component {
                                 </h3>
                                 <h2>Total: ${total}</h2>
                                 <div className="itemButtons">
-                                    <button className="btnBuy">Comprar</button>
-                                    <button className="btnCart">Agregar a Carrito</button>
+                                    <button className="btnCart"
+                                        onClick={this.agregarACarrito}>Agregar a Carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +169,7 @@ class Item extends Component {
                     <div className="itemBody">
                         <h1>Caracteristicas</h1>
                         <div className="container-fluid">
-                            <div className="col-xs-12 col-sm-offset-2 col-sm-8">
+                            <div className="col-xs-12" stlye={{"word-wrap": "break-word"}}>
                                 <p>
                                     {description}
                                 </p>

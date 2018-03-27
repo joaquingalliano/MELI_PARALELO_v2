@@ -36,7 +36,7 @@ class Navbar extends Component {
         let userName = user ? (
             <ul className="nav-right">
                 <li className="dropdown">
-                    <a href="#" className="dropdown-toggle" data-toggle="dropdown">
+                    <a href="*" className="dropdown-toggle" data-toggle="dropdown">
                         <span className="glyphicon glyphicon-user"></span> 
                         <strong>{user.name} &nbsp;</strong>
                         <span className="glyphicon glyphicon-chevron-down"></span>

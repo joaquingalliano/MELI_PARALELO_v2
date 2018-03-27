@@ -57,14 +57,14 @@
     margin-top: 20px;
     font-size: 12px;
     padding: 10px;
-    width: 50%;
+    width: 70%;
 }
 
 .chatMessageOther {
     text-align: left;
     background-color: #bdc3c7;
     color: black;
-    margin-right: 50%;
+    margin-right: 30%;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -74,7 +74,7 @@
     background-color: #a8bff5;
     color: white;
     text-align: right;
-    margin-left: 50%;
+    margin-left: 30%;
     border-top-right-radius: 10px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -115,7 +115,27 @@
 }
 
 .chatMessageText {
-    word-wrap: break-word
+    word-wrap: break-word;
+}
+
+.btnFiltrar {
+    background-color: #6e91e2;
+    transition: 0.15s;
+    color: white;
+}
+
+.btnFiltrar:hover {
+    background-color: #5e7ec5;
+    color: white;
+}
+
+.btnFiltrar:active {
+    background-color: #4e679e;
+    color: white;
+}
+
+.btnFiltrar:focus {
+    color: white;
 }
 
 @keyframes FadeIn {

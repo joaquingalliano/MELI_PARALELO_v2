@@ -16,7 +16,7 @@ class App extends Component {
             <Router>
                 <div>
                     <Route exact path="/" component={ItemDisplay} />
-                    <Route exact path="/search/:keywords" component={ItemDisplay} />
+                    <Route exact path="/search" component={ItemDisplay} />
                     <Route exact path="/items/:itemID" component={Item}/>
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/register" component={RegisterPage} />

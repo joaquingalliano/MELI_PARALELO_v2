@@ -79,14 +79,14 @@
 
 .carrouselItemLocation {
     color: #b3bcbd;
+    font-size: 12px;
 }
 
 .carrouselItemDescription {
-    overflow: hidden;
+    overflow: scroll;
     color: #636e72;
-    text-overflow: ellipsis;
     margin: 15px;
-    max-height: 35%;
+    max-height: 30%;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;

@@ -26,7 +26,7 @@ class RegisterPage extends React.Component {
         .then((category) => {
             this.setState({categories:category})
         });
-        
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.onCheckClick = this.onCheckClick.bind(this);
@@ -61,12 +61,12 @@ class RegisterPage extends React.Component {
         this.setState({ submitted: true });
         const { user } = this.state;
         const { dispatch } = this.props;
-        
+
         if (user.name && user.surname && user.email && user.password && user.preferences ) {
             dispatch(userActions.register(user));
             localStorage.setItem("categorias", user.preferences);
         }
-    }    
+    }
 
     render() {
     var categ = this.state.categories;
@@ -124,9 +124,7 @@ class RegisterPage extends React.Component {
                     </div>
                     <div className="form-group">
                         <button className="btn btn-primary">Registrar</button>
-                        {registering
-                             }
-                        
+                        {registering}
                         <a href="/login" className="btn btn-link">Cancelar</a>
                     </div>
                 </form>

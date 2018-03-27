@@ -39,6 +39,9 @@
 .itemDescription h4 {
     text-align: center;
     margin: 7px 0;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-height: 60px;
 }
 
 .itemDescription p {

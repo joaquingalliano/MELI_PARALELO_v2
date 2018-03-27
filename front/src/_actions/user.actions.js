@@ -47,7 +47,8 @@ function register(user) {
             .then(
                 user => {
                     dispatch(success());
-                    history.push('/login');
+                    //history.push('/login');
+                    window.location.href = "/login";
                     dispatch(alertActions.success('Registrado correctamente'));
                 },
                 error => {
