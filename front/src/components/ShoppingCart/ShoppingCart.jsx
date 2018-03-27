@@ -75,7 +75,7 @@ class ShoppingCart extends Component {
     };
 
     componentDidMount() {
-        /*var id = localStorage.getItem("user");
+        var id = localStorage.getItem("user");
         console.log(id);
         id = 1111;
         fetch('http://localhost:8181/carrito?idUsuario=' + id, { //traigo los datos
@@ -140,29 +140,41 @@ class ShoppingCart extends Component {
                 cupones_ganados: cupones_a_ganar,
                 items: items
             })
-        })*/
-        this.setState({
-            data: [
-                {
+        })
+        /*this.setState({
+            data: [{
                     nombre: "zapatillas",
                     precio: 2000,
                     idItem: "MLA12312",
-                    cantidad: 1
+                    cantidad: 3
+                },
+                {
+                    nombre: "muebles",
+                    precio: 10000,
+                    idItem: "MLA123",
+                    cantidad: 2
                 }
             ],
             user_id: 1111,
-            total_a_pagar: 6000,
-            items_a_comprar: 3,
-            descuento: 0,
+            total_a_pagar: 26000,
+            items_a_comprar: 5,
+            descuento: 2600,
             cupones_disp: 39,
-            cupones_ganados: 2,
+            cupones_ganados: 8,
             items: [{
                 item: {
                     id: "MLA12312"
                 },
                 quantity: 3
-            }]
-        })
+                },
+                {
+                item: {
+                    id: "MLA123"
+                },
+                    quantity: 2
+                }
+            ]
+        })*/
     }
 
     render() {
@@ -196,12 +208,29 @@ class ShoppingCart extends Component {
 }
 
 class Success extends Component{
-    render() {
+    constructor() {
+        super();
+
+        this.state = {
+            result: "",
+            error: "",
+            items: "",
+            cupones: ""
+        }
+    }
+
+    componentDidMount() {
         var cupones = this.props.cupones;
         var items = this.props.items;
         var total = this.props.total;
         var id = this.props.id;
         var itemsList = this.props.itemsList;
+        var error = "";
+
+        this.setState({
+            items: items,
+            cupones: cupones
+        }); 
 
         var json = {
             final_price: total,
@@ -211,9 +240,8 @@ class Success extends Component{
             details: itemsList,
             discount: 1
         }
-        console.log(json);
-
-        fetch('http://localhost:8181/purchases', {
+        
+        fetch('http://localhost:8080/purchases', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -222,19 +250,57 @@ class Success extends Component{
             body: JSON.stringify({
                 json
             })
-        });//.then((results) => {
-            //return results.json();manejar lo que devuelve
-        //redirigir al inicio
-        return(
-            <div>
-                <script>
-                    function myFunction() {
-                        alert("Compra realizada con exito! \n Cupones finales:" + cupones+ "\n Items comprados:" + items)
-                    }
-                </script>
+        }).then((results) => {
+            return results.json();
+        }).then((result) => {
+            if (result.message != undefined) {
+                error = result.message;
+                this.setState({
+                    error: error
+                }); 
+            } else {
+                this.setState({
+                    result: result
+                }); 
+            }
+        });
+    }
+    
+    render() {
+        if(this.state.result == "" && this.state.error == "") { 
+            return "";
+        } else {
+            var error = this.state.error;
+            var result = this.state.result;
+            var items = this.state.items;
+            var cupones = this.state.cupones;
 
-            </div>
-        )
+            window.location.href = 'http://localhost:8080/';
+
+            if (error != "") {
+                return(
+                    <div>
+                        <script>
+                            function myFunction() {
+                                alert("Hubo un error en la compra:\n" + error)
+                            }
+                        </script> 
+                        
+                    </div>
+                );
+            } else {
+                return(
+                    <div>
+                        <script>
+                            function myFunction() {
+                                alert("Compra realizada con exito! \n Cupones finales:" + cupones + "\n Items comprados:" + items)
+                            }
+                        </script> 
+                        
+                    </div>
+                )
+            }
+        }
     }
 }
 
