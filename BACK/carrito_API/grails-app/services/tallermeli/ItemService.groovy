@@ -12,18 +12,18 @@ class ItemService {
     def Object getInfoItem(String itemId) {
         DataService dataService = new DataService()
 
-        //def url = 'http://localhost:8080/items/' + itemid
+        def url = 'http://localhost:8080/items/' + itemId
         //def url = 'http://localhost:8080/items/' + itemid + '?user_id=' + idUsuario
 
         //URL del mockServer
-        def url = 'http://localhost:7070/items/q=' + itemId
+        //def url = 'http://localhost:7070/items/q=' + itemId
 
         try{
             def inputStream = dataService.findByApi(url)
 
-            for (Object obj : inputStream) {
-                return obj
-            }
+            //for (Object obj : inputStream) {
+                return inputStream
+            //}
         }catch(Exception ex){
             return null
         }
