@@ -103,9 +103,9 @@ class ItemDisplay extends Component {
 
         return (
             <div>
-                <Categorias categorias={categorias}/>
                 {buttonGroup}
-                <div className="itemListing">
+                <Filtros categorias={categorias}/>
+                <div className="itemListing col-xs-offset-3 col-xs-7">
                     {listing}
                 </div>
             </div>
@@ -113,7 +113,7 @@ class ItemDisplay extends Component {
     }
 }
 
-class Categorias extends Component {
+class Filtros extends Component {
     render() {
         let categorias = this.props.categorias;
         let options = [];
@@ -126,10 +126,39 @@ class Categorias extends Component {
         });
 
         return (
-            <div className="categoriasContainer">
-                <select>
-                    {options}
-                </select>
+            <div className="col-xs-3 filtros">
+                <h2>Filtros</h2>
+                <div className="form-group">
+                    <h5>Categoria</h5>
+                    <select id="categorias" name="categorias" className="form-control">
+                        <option value="#">Seleccione una categoria..</option>
+                        {options}
+                    </select>
+                </div>
+                <div className="form-group">
+                    <label for="precioDesde" className="control-label">Rango de precios</label>
+                    <div className="container-fluid form-horizontal">
+                        <div className="form-group">
+                            <label for="precioDesde" className="col-xs-2">De: </label>
+                            <div className="col-xs-4">
+                                <input type="number"
+                                    className="form-control precio"
+                                    min="0"
+                                    name="precioDesde"
+                                    placeholder="$100"/>
+                            </div>
+                            <label for="precioHasta" className="col-xs-2">Hasta:</label>
+                            <div className="col-xs-4">
+                                <input type="number"
+                                    className="form-control precio"
+                                    min="0"
+                                    name="precioHasta"
+                                    placeholder="$200"/>
+                            </div>
+                        </div>
+                    </div>
+                    <button className="btn btnFiltrar">Filtrar</button>
+                </div>
             </div>
         );
     }

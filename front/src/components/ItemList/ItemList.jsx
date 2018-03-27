@@ -7,7 +7,7 @@ class ItemList extends Component {
         let data = this.props.data;
         console.log(data);
         return(
-            <div className="col-xs-12 col-sm-offset-2 col-sm-8">
+            <div>
                 {
                     data.map((item, index) =>
                         <ItemRow
@@ -51,7 +51,7 @@ class ItemRow extends Component {
                     </div>
                     <div className="itemRowDescription">
                         <h4>{title}</h4>
-                        <p className="itemRowDate"> 
+                        <p className="itemRowDate">
                             Fecha: {date}
                         </p>
                         <h2>$ {precio}</h2>

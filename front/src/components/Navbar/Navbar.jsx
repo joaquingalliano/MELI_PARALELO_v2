@@ -31,7 +31,6 @@ class Navbar extends Component {
         let btnLogin = (
             <div>
                 <a href="/login"><button className="btn btn-nav">Login</button></a>
-                {shoppingCart}
             </div>
         );
         let userName = user ? (

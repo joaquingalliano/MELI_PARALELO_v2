@@ -6,7 +6,7 @@ class ItemGrid extends Component {
     render() {
         let data = this.props.data;
         return(
-            <div className="col-xs-12 col-md-offset-2 col-md-8">
+            <div>
                 {
                     data.map((item, index) =>
                         <ItemCell
