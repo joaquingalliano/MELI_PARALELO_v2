@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/TallerMeli.iml" filepath="$PROJECT_DIR$/TallerMeli.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TallerMeli_integrationTest.iml" filepath="$PROJECT_DIR$/.idea/modules/TallerMeli_integrationTest.iml" group="TallerMeli" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TallerMeli_main.iml" filepath="$PROJECT_DIR$/.idea/modules/TallerMeli_main.iml" group="TallerMeli" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TallerMeli_test.iml" filepath="$PROJECT_DIR$/.idea/modules/TallerMeli_test.iml" group="TallerMeli" />
+    </modules>
+  </component>
+</project>

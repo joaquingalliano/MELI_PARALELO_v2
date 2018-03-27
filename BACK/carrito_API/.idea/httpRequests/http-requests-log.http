@@ -1,0 +1,32 @@
+GET http://localhost:7070/sites?idUsuario=001
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-03-23T114306.404.html
+
+###
+
+GET http://localhost:8080?idUsuario=001
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-03-23T114022.200.json
+
+###
+
+GET http://localhost:8080
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-03-23T114014.200.json
+
+###
+
+GET http://localhost:8080/resources
+Accept: */*
+Cache-Control: no-cache
+
+<> 2018-03-23T114010.404.html
+
+###
+
