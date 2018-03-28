@@ -118,7 +118,7 @@ class Users extends React.Component{
                     <div id="usuarios" className="table-responsive tableContainer">
                         <h2> Top 10 de Visitas y Compras por Usuario</h2>
                         <table className="table table-hover">
-                            <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
+                            <thead><tr><td>Usuario</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
                             <UsuariosList usuarios={this.props.arrayUsers}/>
                         </table>
                     </div>
@@ -156,7 +156,7 @@ class UsuariosList extends React.Component{
             <tbody>
             {
                 this.props.usuarios.map((user) => {
-                    return <Detail nombre={user.user_id} visitas={user.visit_items} compras={user.bought_items}/>
+                    return <Detail nombre={user.user.name} visitas={user.visit_items} compras={user.bought_items}/>
                 })
             }
             </tbody>

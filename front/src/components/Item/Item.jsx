@@ -23,8 +23,9 @@ class Item extends Component {
     }
 
     cargarItem() {
+        let user = JSON.parse(localStorage.getItem("user"));
         let idItem  = this.props.match.params.itemID;
-        let urlItemApi = "http://localhost:8080/items/" + idItem;
+        let urlItemApi = "http://localhost:8080/items/" + idItem + "?user_id=" + user.id;
         //Item
         fetch(urlItemApi)
         .then((response) => {
