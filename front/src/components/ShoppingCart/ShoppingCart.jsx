@@ -97,6 +97,7 @@ class ShoppingCart extends Component {
         }).then((results) => {
             return results.json();
         }).then(info => {
+            console.log(info)
             var jsons = [];
             var total_a_pagar = 0;
             var data = info[0].carrito;
@@ -223,45 +224,56 @@ class Success extends Component{
         var cupones = this.props.cupones;
         var items = this.props.items;
         var total = this.props.total;
-        var id = this.props.id;
+        var id = {id: this.props.id};
         var itemsList = this.props.itemsList;
         var error = "";
+
+        console.log(cupones)
+        console.log(items)
+        console.log(total)
+        console.log(itemsList)
+        console.log(id)
 
         this.setState({
             items: items,
             cupones: cupones
         }); 
 
+        console.log("DESPUES DEL SETSTATE")
         var json = {
             final_price: total,
             base_price: total,
-            user_id: id,
+            user: id,
             coupons: cupones,
             details: itemsList,
             discount: 1
         }
-        
+        console.log(json);
         fetch('http://localhost:8080/purchases', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                json
-            })
+            body: JSON.stringify(json)
         }).then((results) => {
+            console.log(results)
             return results.json();
         }).then((result) => {
-            if (result.message != undefined) {
+            console.log(result)
+            if (result.message === undefined) {
+                console.log("EXITO")
+                this.setState({
+                    result: result
+                }); 
+            } else {
+                console.log()
                 error = result.message;
                 this.setState({
                     error: error
                 }); 
-            } else {
-                this.setState({
-                    result: result
-                }); 
+
+                
             }
         });
     }
@@ -290,15 +302,13 @@ class Success extends Component{
                 );
             } else {
                 var userJson = {id: this.props.id}
+                console.log(userJson)
                 fetch('http://localhost:8080/carrito?idUsuario=' + userJson.id, {
                     method: 'DELETE',
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        userJson
-                    })
+                    }
                 })
                 return(
                     <div>

@@ -12,10 +12,13 @@ class Item extends Component {
 
         this.state = {
             cargando: true,
-            total: 0
+            total: 0,
+            hiddenAlert: true
         }
 
         this.calcularTotal = this.calcularTotal.bind(this);
+        this.agregarACarrito = this.agregarACarrito.bind(this);
+        this.showAlert = this.showAlert.bind(this);
     }
 
     componentWillMount() {
@@ -72,8 +75,27 @@ class Item extends Component {
         this.setState({total: total})
     }
 
-    agregarACarrito(e) {
-        console.log(e);
+    agregarACarrito() {
+
+        fetch('http://localhost:8080/carrito?idUsuario=' + JSON.parse(localStorage.getItem("user")).id + '&idItem=' + this.props.match.params.itemID, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        alert("Item agregado a carrito");
+        
+        this.showAlert();
+
+    }
+
+    showAlert() {
+        let newvalue = !this.state.hiddenAlert;
+        console.log(newvalue);
+        this.setState({
+            hiddenAlert: newvalue
+        });
     }
 
     render() {
@@ -109,9 +131,16 @@ class Item extends Component {
         if (error) {
             return ( <NotFound /> );
         }
+        let componente = this;
+        let alertStyle = {
+            "display": this.state.hiddenAlert ? "none" : "block"
+        }
 
         return (
             <div>
+                <div style={alertStyle}>
+                    <h1>Item agregado!</h1>
+                </div>
                 <div className="col-xs-12 col-sm-8 col-sm-offset-2 itemContainer">
                     <div className="itemHeader">
                         <Carrousel imagenes={item ? this.state.item.pictures : ""} />
@@ -130,9 +159,12 @@ class Item extends Component {
                                 </h3>
                                 <h2>Total: ${total}</h2>
                                 <div className="itemButtons">
-                                    <button className="btnCart"
-                                        onClick={this.agregarACarrito()}>Agregar a Carrito</button>
+                                    <button className="btnCart" id="btnCart"
+                                        onClick={function(e){componente.agregarACarrito()}}>Agregar a Carrito</button>
                                 </div>
+                                <script>
+                                    
+                                </script>
                             </div>
                         </div>
                     </div>
