@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
 import NotFound from '../NotFound/NotFound';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import {ItemCell} from '../ItemGrid/ItemGrid';
@@ -112,7 +113,7 @@ class Item extends Component {
             <div>
                 <div className="col-xs-12 col-sm-8 col-sm-offset-2 itemContainer">
                     <div className="itemHeader">
-                        <Carrousel imagenes={item ? this.state.item.pictures : ""}/>
+                        <Carrousel imagenes={item ? this.state.item.pictures : ""} />
                         <div className="itemData">
                             <h3 className="itemTitle">{item ? item.title : ""}</h3>
                             <div className="itemSubData">
@@ -120,14 +121,16 @@ class Item extends Component {
                                 <h3>Shipping: $25</h3>
                                 <h3>Quantity:
                                     <input type="number"
-                                        min="1"
-                                        className="quantitySelector"
-                                        onChange={this.calcularTotal}/>
+                                            min="1"
+                                            max={this.state.item.available_quantity}
+                                            className="quantitySelector"
+                                            defaultValue="1"
+                                            onChange={this.calcularTotal}/>
                                 </h3>
                                 <h2>Total: ${total}</h2>
                                 <div className="itemButtons">
                                     <button className="btnCart"
-                                        onClick={this.agregarACarrito}>Agregar a Carrito</button>
+                                        onClick={this.agregarACarrito()}>Agregar a Carrito</button>
                                 </div>
                             </div>
                         </div>
@@ -169,8 +172,10 @@ class Item extends Component {
 }
 
 class Carrousel extends Component {
+
     render() {
         let imagenes = this.props.imagenes;
+        let id = this.props.id;
         let style = {
             "height": 350
         }
@@ -188,11 +193,9 @@ class Carrousel extends Component {
                         <div className="item active" style={imgDiv}>
                             <img src={imagenes[0].url} alt="imagen1" style={img}/>
                         </div>
-
                         <div className="item" style={imgDiv}>
                             <img src={imagenes[1].url} alt="imagen2" style={img} />
                         </div>
-
                         <div className="item" style={imgDiv}>
                             <img src={imagenes[2].url} alt="imagen3" style={img} />
                         </div>

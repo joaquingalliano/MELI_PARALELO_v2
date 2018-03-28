@@ -51,6 +51,7 @@
 .quantitySelector {
     border-radius: 5px;
     font-weight: normal;
+    width: 80px;
 }
 
 .itemButtons {

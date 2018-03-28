@@ -1,5 +1,4 @@
 import React from 'react';
-//import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
@@ -7,8 +6,6 @@ import { userActions } from '../_actions';
 class LoginPage extends React.Component {
     constructor(props) {
         super(props);
-        // reset login status
-        //this.props.dispatch(userActions.logout());
 
         this.state = {
             email: '',
@@ -75,7 +72,5 @@ function mapStateToProps(state) {
     };
 }
 
-//export default LoginPage
+export default connect(mapStateToProps)(LoginPage);
 
- export default connect(mapStateToProps)(LoginPage);
- //export { connectedLoginPage as LoginPage };
