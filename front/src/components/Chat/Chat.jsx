@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import ReactDOM from 'react-dom';
 import './Chat.css';
 
 class Chat extends Component {
@@ -7,20 +8,27 @@ class Chat extends Component {
         super();
 
         this.state = {
-            hidden: true
+            hidden: true,
+            messageText: ""
         }
         this.showChat = this.showChat.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+        this.handleText = this.handleText.bind(this);
+        this.handleKeyChange = this.handleKeyChange.bind(this);
+        this.getMessages = this.getMessages.bind(this);
     }
 
     componentWillMount() {
-        let urlChat = "http://localhost:8080/comments?limit=20"
-        fetch(urlChat)
-        .then((response) => {return response.json()})
-        .then((data) => {
-            this.setState({
-                messages: data
-            });
-        });
+        this.getMessages();
+    }
+
+    componentDidUpdate() {
+        if (!this.state.hidden) {
+            const node = this.refs.endMessages;
+            if (node) {
+                node.scrollIntoView();
+            }
+        }
     }
 
     showChat(e) {
@@ -34,16 +42,64 @@ class Chat extends Component {
         this.setState({hidden: newState});
     }
 
-    render() {
-        let messages = this.state.messages;
-        let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
-        let ownMessages = messages && user ? messages.forEach((mess) => {
-            if (mess.user.id === user.id) {
-                ownMessages.push(mess);
-            }
-        }) : "";
+    sendMessage(e) {
+        let user = JSON.parse(localStorage.getItem("user"));
+        let message = this.state.messageText;
+        let urlChat = "http://localhost:8080/comments";
+        let body = JSON.stringify({
+            user: user.id,
+            description: message
+        });
 
-        if (!this.state.hidden) {
+        fetch(urlChat, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: body
+        })
+        .then(() => {
+            this.getMessages();
+        });
+
+        this.setState({
+            messageText: ""
+        });
+    }
+
+    getMessages() {
+        let urlChat = "http://localhost:8080/comments?limit=10"
+        fetch(urlChat)
+        .then((response) => {return response.json()})
+        .then((data) => {
+            this.setState({
+                messages: data
+            });
+        });
+    }
+
+    handleText(e) {
+        let target = e.target;
+        let value = target.value;
+
+        this.setState({
+            messageText: value
+        });
+    }
+
+    handleKeyChange(e) {
+        if (e.key === 'Enter') {
+            this.sendMessage();
+        }
+    }
+
+    render() {
+        let messages = this.state.messages ? this.state.messages : "";
+        let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+        let inverseMessages = this.state.messages ? messages.slice(0).reverse() : "";
+
+        if (!user && !this.state.hidden) {
             return (
                 <div>
                     <div className="chatBackground" onClick={this.showChat}></div>
@@ -54,12 +110,46 @@ class Chat extends Component {
                             onClick={this.showChat}
                         ></button>
                         <div className="chatMessages">
-                            <Message userID="Pele" text="Hey hey heyyyyy Hey hey heyyyyy Hey hey heyyyyy" owner="Other"/>
-                            <Message userID="Yo" text="BITCONNEEECTBITCONNEEECTBITCONNEEECTBITCONNEEECT" owner="Own"/>
+                            <h4 style={{"color": "white"}}>Please login..</h4>
                         </div>
                         <div className="chatInputs">
-                            <input type="text" maxLength="240" className="chatTextInput" />
-                            <button className="chatButtonInput glyphicon glyphicon-send"></button>
+                            <input type="text" maxLength="240" className="chatTextInput" disabled/>
+                            <button className="chatButtonInput glyphicon glyphicon-send" disabled></button>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        if (!this.state.hidden && user) {
+            return (
+                <div>
+                    <div className="chatBackground" onClick={this.showChat}></div>
+                    <div className="chatContainer">
+                        <button type="button"
+                            style={{transform: "translateX(-250px)"}}
+                            className="btnChat glyphicon glyphicon-chevron-right"
+                            onClick={this.showChat}
+                        ></button>
+                        <div className="chatMessages">
+                            {
+                                inverseMessages.map((mess, index) =>
+                                    <Message
+                                        key={index}
+                                        userID={mess.user.name}
+                                        text={mess.description}
+                                        owner={ user.id === mess.user.id ? "Own" : "Other" }/>
+                                )
+                            }
+                            <div ref={(el) => this.endMessages = el}></div>
+                        </div>
+                        <div className="chatInputs">
+                            <input type="text" maxLength="240" className="chatTextInput"
+                                onKeyPress={this.handleKeyChange}
+                                onChange={this.handleText}
+                                value={this.state.messageText}/>
+                            <button className="chatButtonInput glyphicon glyphicon-send"
+                                onClick={this.sendMessage}></button>
                         </div>
                     </div>
                 </div>
