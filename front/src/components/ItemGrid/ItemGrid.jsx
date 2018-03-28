@@ -12,8 +12,8 @@ class ItemGrid extends Component {
                         <ItemCell
                             key={index}
                             index={index}
-                            itemID={item.item_id}
-                            image={item.image}
+                            itemID={item.id}
+                            image={item.pictures[0].url}
                             title={item.title}
                             city={item.city}
                             state={item.state}
@@ -61,6 +61,10 @@ class ItemCell extends Component {
             </div>
         );
     }
+}
+
+export {
+    ItemCell
 }
 
 export default ItemGrid;

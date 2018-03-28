@@ -16,6 +16,7 @@
     margin-left: 2.5%;
     box-shadow: 0px 10px 52px 0px rgba(0,0,0,0.3);
     overflow: hidden;
+    padding-left: 0;
 }
 
 .carrouselButton {
@@ -43,6 +44,7 @@
 .carrouselItemImage {
     height: 60vh;
     object-fit: contain;
+    margin-left: -25%;
 }
 
 .carrouselItemDetails {
@@ -86,7 +88,7 @@
     overflow: scroll;
     color: #636e72;
     margin: 15px;
-    max-height: 30%;
+    max-height: 20%;
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;

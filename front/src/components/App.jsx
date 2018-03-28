@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import ItemDisplay from './ItemDisplay/ItemDisplay';
-import NotFound from './NotFound/NotFound';
 import Item from './Item/Item';
 import LoginPage from './Login';
 import RegisterPage from './Register';

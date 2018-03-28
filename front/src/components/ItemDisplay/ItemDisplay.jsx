@@ -4,6 +4,7 @@ import ItemGrid             from '../ItemGrid/ItemGrid';
 import ItemList             from '../ItemList/ItemList';
 import ItemCarrousel        from '../ItemCarrousel/ItemCarrousel';
 import LoadingSpinner       from '../LoadingSpinner/LoadingSpinner';
+import NotFound             from '../NotFound/NotFound';
 import queryString          from 'query-string';
 
 class ItemDisplay extends Component {
@@ -24,44 +25,70 @@ class ItemDisplay extends Component {
 
     componentWillMount() {
         let urlItemsApi = "http://localhost:8080/items";
-        let urlItemsCategoriaApi = 'http://localhost:8080/items/q=' + localStorage.getItem("categorias");
         let urlCategorias = "http://localhost:8080/categories";
 
         //Busco items
         if (this.props.location.search) {
             let params = queryString.parse(this.props.location.search);
-            let categoria = params.categories;
-            let urlSearch = "http://localhost:8080/items/search?categories=" + categoria;
+            let urlSearch = "http://localhost:8080/items/search?";
+            if (params.title) {
+                let title = params.title;
+                urlSearch += "title=" + title;
+            }
             fetch(urlSearch)
             .then((response) => {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
                 this.setState({
+                    itemsTotales: data,
                     items: data
                 });
-            })
-            params.categories;
+            });
         }
         else {
-            if(localStorage.getItem("user") != null) {
-                if(localStorage.getItem("categorias") != null) {
-                    fetch(urlItemsCategoriaApi)
-                    .then((response) => {
-                        return response.json();
+            let user = localStorage.getItem("user");
+            if(user) {
+                user = JSON.parse(user);
+                let categorias = user.preferences;
+                let idCategorias = categorias.map((cat) => {return cat.id});
+
+                fetch(urlItemsApi)
+                .then((response) => {
+                    return response.json();
+                })
+                .then((items) => {
+                    let itemsUser = [];
+                    let contador = 0;
+                    items.forEach((item) => {
+                        if (contador === 6) return;
+                        if (idCategorias.indexOf(item.category.id) !== -1) {
+                            itemsUser.push(item);
+                            contador++;
+                        }
+                    });
+                    this.setState({
+                        itemsTotales: itemsUser,
+                        items: itemsUser
                     })
-                    .then((items) => {
-                        this.setState({ items: items })
-                    })
-                }
+                });
             } else {
                 fetch(urlItemsApi)
                 .then((response) => {
                     return response.json()
                 })
                 .then((items) => {
-                    this.setState({ items: items })
+                    let contador = 0;
+                    let nuevosItems = [];
+                    items.forEach((item) => {
+                        if (contador === 18) return;
+                        nuevosItems.push(item);
+                        contador++;
+                    });
+                    this.setState({
+                        itemsTotales: nuevosItems,
+                        items: nuevosItems
+                    })
                 })
             }
         }
@@ -95,9 +122,23 @@ class ItemDisplay extends Component {
 
     filtrar(e) {
         let catSeleccionada = this.refs.categoriaSeleccionada.value;
-        if (catSeleccionada != 0) {
-            let urlSearchCategory = "/search?categories=" + catSeleccionada;
-            window.location.href = urlSearchCategory;
+        let itemsNuevos = [];
+        let itemsActuales = this.state.itemsTotales;
+        console.log("filtrar!");
+        if (catSeleccionada !== '0') {
+            itemsActuales.forEach((item) => {
+                if (item.category.id === catSeleccionada) {
+                    itemsNuevos.push(item);
+                }
+            });
+            this.setState({
+                items: itemsNuevos
+            });
+        }
+        else {
+            this.setState({
+                items: itemsActuales
+            });
         }
     }
 
@@ -121,6 +162,12 @@ class ItemDisplay extends Component {
             );
         }
 
+        if (this.state.items.message) {
+            return (
+                <NotFound />
+            );
+        }
+
         let listing;
 
         switch(this.state.listing) {
@@ -140,7 +187,7 @@ class ItemDisplay extends Component {
         let categorias = this.state.categorias;
         let options = [];
 
-        categorias.map((cat, i) => {
+        categorias.forEach((cat, i) => {
             let optionHtml = (
                 <option key={i} value={cat.id}>{cat.name}</option>
             );
@@ -158,7 +205,7 @@ class ItemDisplay extends Component {
                             name="categorias"
                             className="form-control"
                             >
-                            <option value="0">Seleccione una categoria..</option>
+                            <option value="0">Todas</option>
                             {options}
                         </select>
                     </div>

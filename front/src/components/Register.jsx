@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
+import strings from '../lang/languajes';
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class RegisterPage extends React.Component {
                 surname: '',
                 email: '',
                 password: '',
-                preferences: []
+                preferences: [],
+                lenguage: 'english'
             },
             categories: [],
             submitted: false
@@ -69,7 +71,8 @@ class RegisterPage extends React.Component {
     }
 
     render() {
-    var categ = this.state.categories;
+        var categ = this.state.categories;
+        const lang = strings[this.state.user.lenguage];
         const estilo ={overflowX: 'scroll', height: '200px', columnCount: '2'}
         const labelS={height: '34px'}
         const { registering  } = this.props;
@@ -79,34 +82,34 @@ class RegisterPage extends React.Component {
 
                 <form name="form" onSubmit={this.handleSubmit}>
                     <div className={'form-group' + (submitted && !user.name ? ' has-error' : '')}>
-                        <label htmlFor="name">Nombre</label>
+                        <label htmlFor="name">{lang.registro.nombre}</label>
                         <input type="text" className="form-control" name="name" value={user.name} onChange={this.handleChange} />
                         {submitted && !user.name &&
-                            <div className="help-block">Nombre es requerido</div>
+                            <div className="help-block">{lang.registro.mensajeNombre}</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.surname ? ' has-error' : '')}>
-                        <label htmlFor="surname">Apellido</label>
+                        <label htmlFor="surname">{lang.registro.apellido}</label>
                         <input type="text" className="form-control" name="surname" value={user.surname} onChange={this.handleChange} />
                         {submitted && !user.surname &&
-                            <div className="help-block">Apellido es requerido</div>
+                            <div className="help-block">{lang.registro.mensajeApellido}</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.email ? ' has-error' : '')}>
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email">{lang.registro.email}</label>
                         <input type="email" className="form-control" name="email" value={user.email} onChange={this.handleChange} />
                         {submitted && !user.email &&
                             <div className="help-block">Email es requerido</div>
                         }
                     </div>
                     <div className={'form-group' + (submitted && !user.password ? ' has-error' : '')}>
-                        <label htmlFor="password">Contraseña</label>
+                        <label htmlFor="password">{lang.registro.contraseña}</label>
                         <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
                         {submitted && !user.password &&
                             <div className="help-block">Contraseña requerida</div>
                         }
                     </div>
-                    <label>Cuales son tus categorias preferidas?</label>
+                    <label>{lang.registro.categoriaPreferida}</label>
                     <div style={estilo} className={'form-group' + (submitted && !user.preferences ? ' has-error' : '')}>
                     {categ.map((categoria, i) =>
                     <div key = {i}>
@@ -123,9 +126,9 @@ class RegisterPage extends React.Component {
                         }
                     </div>
                     <div className="form-group">
-                        <button className="btn btn-primary">Registrar</button>
+                        <button className="btn btn-primary">{lang.registro.botonRegistrarse}</button>
                         {registering}
-                        <a href="/login" className="btn btn-link">Cancelar</a>
+                        <a href="/login" className="btn btn-link">{lang.registro.botonCancelar}</a>
                     </div>
                 </form>
             </div>

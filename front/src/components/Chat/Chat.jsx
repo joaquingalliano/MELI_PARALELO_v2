@@ -12,6 +12,17 @@ class Chat extends Component {
         this.showChat = this.showChat.bind(this);
     }
 
+    componentWillMount() {
+        let urlChat = "http://localhost:8080/comments?limit=20"
+        fetch(urlChat)
+        .then((response) => {return response.json()})
+        .then((data) => {
+            this.setState({
+                messages: data
+            });
+        });
+    }
+
     showChat(e) {
         let newState = this.state.hidden ? false : true;
         if (newState) {
@@ -24,6 +35,14 @@ class Chat extends Component {
     }
 
     render() {
+        let messages = this.state.messages;
+        let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : "";
+        let ownMessages = messages && user ? messages.forEach((mess) => {
+            if (mess.user.id === user.id) {
+                ownMessages.push(mess);
+            }
+        }) : "";
+
         if (!this.state.hidden) {
             return (
                 <div>

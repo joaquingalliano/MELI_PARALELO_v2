@@ -7,6 +7,7 @@ class Navbar extends Component {
 
         this.search = this.search.bind(this);
         this.logout = this.logout.bind(this);
+        this.handleSearchText = this.handleSearchText.bind(this);
     }
 
     search(e) {
@@ -15,12 +16,19 @@ class Navbar extends Component {
             alert("Porfavor ingrese un valor valido!");
             return;
         }
-        window.location.href = "/search/" + value;
+
+        window.location.href = "/search?title=" + value;
     }
 
     logout(e) {
         localStorage.removeItem('user');
         window.location.href = "/";
+    }
+
+    handleSearchText(e) {
+        if (e.key === 'Enter') {
+            this.search();
+        }
     }
 
     render() {
@@ -63,7 +71,7 @@ class Navbar extends Component {
                                 <div className="row">
                                     <div className="col-lg-12">
                                         <p>
-                                            <a href="#" onClick={this.logout} className="btn btn-danger btn-block">Cerrar Sesion</a>
+                                            <button onClick={this.logout} className="btn btn-danger btn-block">Cerrar Sesion</button>
                                         </p>
                                     </div>
                                 </div>
@@ -83,7 +91,10 @@ class Navbar extends Component {
                 <div className="nav-container">
                     <a href="/" className="navbarTitle">Kwik-E-Mart</a>
                     <div className="searchBar" >
-                        <input ref="searchText" type="text" name="searchText" id="searchText" maxLength="40"/>
+                        <input ref="searchText" type="text" name="searchText"
+                            onKeyPress={this.handleSearchText}
+                            id="searchText"
+                            maxLength="40"/>
                         <button className="glyphicon glyphicon-search btnSearch"
                             type="button"
                             onClick={this.search}></button>

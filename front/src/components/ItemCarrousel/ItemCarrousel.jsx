@@ -48,14 +48,14 @@ class ItemCarrousel extends Component {
                     <button className="carrouselButton glyphicon glyphicon-chevron-right"
                         style={{"right": -10}} direction="right" onClick={this.handleChangeItem}></button>
                     <CarrouselItem
-                        itemID={item.item_id}
+                        itemID={item.id}
                         title={item.title}
                         state={item.state}
                         country={item.country}
                         city={item.city}
                         price={item.price}
                         description={item.description}
-                        image={item.image}/>
+                        image={item.pictures[0].url}/>
                 </div>
             )
         }
@@ -80,12 +80,12 @@ class CarrouselItem extends Component {
 
         return(
             <div className="carrouselItem container-fluid">
-                <div className="col-xs-5" style={{"overflow": "hidden"}}>
+                <div className="col-xs-6" style={{"overflow": "hidden", "paddingLeft": 0}}>
                     <img className="carrouselItemImage"
                         src={image}
                         alt="imagen"/>
                 </div>
-                <div className="carrouselItemDetails col-xs-7">
+                <div className="carrouselItemDetails col-xs-6">
                     <h4>{title}</h4>
                     <h1>${price}</h1>
                     <p className="carrouselItemLocation">
