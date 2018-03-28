@@ -33,7 +33,7 @@ class AdminView extends React.Component {
 
     render() {
         if(this.state.user != null){
-            if(this.state.user.username != "admin@admin.com"){
+            if(this.state.user.email != "admin@admin.com"){
                 return(
                     <div><h3>No tiene los permisos necesarios.</h3></div>
                 )
@@ -171,12 +171,6 @@ class ChartView extends React.Component {
             options: {
                 vAxis: { title: 'Cantidad'},
             },
-            data:[
-              ["Item1",1,5],
-                ["Item2",4,2],
-                ["Item3",6,53],
-                ["Item4",2,15],
-            ],
             columns: [
                 {
                     type:'string',

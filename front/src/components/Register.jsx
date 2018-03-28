@@ -112,11 +112,10 @@ class RegisterPage extends React.Component {
                     <label>{lang.registro.categoriaPreferida}</label>
                     <div style={estilo} className={'form-group' + (submitted && !user.preferences ? ' has-error' : '')}>
                     {categ.map((categoria, i) =>
-                    <div key = {i}>
-                        <label style={labelS} className="checkbox-inline" htmlFor="preferences">
-                        <input type="checkbox" key={i} className="form-control"
-                        onClick={() => this.onCheckClick(categoria.id)}
-                        name={categoria.name} value={categoria.id}/>
+                    <div key = {i} className="checkbox">
+                        <label style={labelS}>
+                        <input type="checkbox" key={i} onClick={() => this.onCheckClick(categoria.id)}
+                               value={categoria.id} />
                         {categoria.name}
                         </label>
                     </div>

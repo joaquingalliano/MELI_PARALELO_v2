@@ -48,7 +48,7 @@ class ItemDisplay extends Component {
         }
         else {
             let user = localStorage.getItem("user");
-            if(user) {
+            if(user && user.preferences) {
                 user = JSON.parse(user);
                 let categorias = user.preferences;
                 let idCategorias = categorias.map((cat) => {return cat.id});

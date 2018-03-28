@@ -91,7 +91,7 @@ class Navbar extends Component {
                 <div className="nav-container">
                     <a href="/" className="navbarTitle">Kwik-E-Mart</a>
                     <div className="searchBar" >
-                        <input ref="searchText" type="text" name="searchText"
+                        <input ref="searchText" type="text" name="searchText" placeholder="Búsqueda"
                             onKeyPress={this.handleSearchText}
                             id="searchText"
                             maxLength="40"/>
