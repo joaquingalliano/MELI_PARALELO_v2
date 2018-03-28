@@ -12,7 +12,7 @@ class ShoppingCart extends Component {
         super();
 
         this.state = {
-            user_id: "",
+            id_usuario: "",
             cupones_disp: 0,
             total_a_pagar: "",
             descuento: 0,
@@ -75,15 +75,15 @@ class ShoppingCart extends Component {
     };
 
     componentDidMount() {
-        var id = localStorage.getItem("user");
-        console.log(id);
-        id = 1111;
-        fetch('http://localhost:8181/carrito?idUsuario=' + id, { //traigo los datos
+        var id = JSON.parse(localStorage.getItem("user")).id;
+        //console.log(id);
+        //id = 1111;
+        fetch('http://localhost:8080/carrito?idUsuario=' + id, { //traigo los datos
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': 'http://localhost:6060',
+                'Access-Control-Allow-Origin': 'http://localhost:8080',
                 'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
                 'Access-Control-Allow-Headers': 'X-Requested-With,content-type',
                 'Access-Control-Allow-Credentials': true,
@@ -132,7 +132,7 @@ class ShoppingCart extends Component {
             var items_a_comprar = data.length;
             this.setState({
                 data: jsons,
-                user_id: id,
+                id_usuario: id,
                 total_a_pagar: total_a_pagar,
                 items_a_comprar: items_a_comprar,
                 descuento: descuento,
@@ -155,7 +155,7 @@ class ShoppingCart extends Component {
                     cantidad: 2
                 }
             ],
-            user_id: 1111,
+            id_usuario: 1111,
             total_a_pagar: 26000,
             items_a_comprar: 5,
             descuento: 2600,
@@ -274,8 +274,8 @@ class Success extends Component{
             var result = this.state.result;
             var items = this.state.items;
             var cupones = this.state.cupones;
-
-            window.location.href = 'http://localhost:8080/';
+            
+            window.location.href = 'http://localhost:8081/';
 
             if (error != "") {
                 return(
@@ -289,6 +289,17 @@ class Success extends Component{
                     </div>
                 );
             } else {
+                var userJson = {id: this.props.id}
+                fetch('http://localhost:8080/carrito?idUsuario=' + userJson.id, {
+                    method: 'DELETE',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        userJson
+                    })
+                })
                 return(
                     <div>
                         <script>
