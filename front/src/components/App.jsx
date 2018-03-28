@@ -5,10 +5,13 @@ import LoginPage from './Login';
 import RegisterPage from './Register';
 import ShoppingCart from './ShoppingCart/ShoppingCart';
 import AdminPage from './AdminView/AdminView';
+import Populate from './PopulateDataBase';
+
 import {
     BrowserRouter as Router,
     Route
 } from 'react-router-dom';
+import PopulateDataBase from "./PopulateDataBase";
 
 class App extends Component {
     render() {
@@ -22,6 +25,7 @@ class App extends Component {
                     <Route exact path="/register" component={RegisterPage} />
                     <Route exact path="/carrito" component={ShoppingCart} />
                     <Route path="/admin" component={AdminPage} />
+                    <Route path="/populate" component={Populate}/>
                 </div>
             </Router>
         );
