@@ -1,5 +1,7 @@
 import { Chart } from 'react-google-charts';
 import React from 'react';
+import './AdminView.css';
+
 
 class AdminView extends React.Component {
 
@@ -11,7 +13,8 @@ class AdminView extends React.Component {
     componentWillMount() {
         this.state.user = JSON.parse(localStorage.getItem("user"));
         if(this.state.user != null){
-            if(this.state.user.username === "admin@admin.com"){
+            if(this.state.user.email === "admin@admin.com"){
+                console.log("Entra");
                 fetch('http://localhost:8080/items')
                     .then((response) => {
                         return response.json()
@@ -44,9 +47,13 @@ class AdminView extends React.Component {
                 <div><h3>Debe iniciar sesion para acceder a esta sección.</h3></div>
             )
         }
-
-        this.state.items.sort((a, b) => parseInt(b.query_count) - parseInt(a.query_count) );
-        this.state.usuarios.sort((a,b) => parseInt(b.bought_items) - parseInt(a.bought_items) );
+        console.log(this.state.items);
+        if(this.state.items.length > 0){
+            this.state.items.sort((a, b) => parseInt(b.query_count) - parseInt(a.query_count) );
+        }
+        if(this.state.usuarios.length > 0){
+            this.state.usuarios.sort((a,b) => parseInt(b.bought_items) - parseInt(a.bought_items) );
+        }
         let cantItems = 10 <= this.state.items.length ? 10 : this.state.items.length;
         let cantUsers = 10 <= this.state.usuarios.length ? 10 : this.state.usuarios.length;
         let arrayItems = [];
@@ -65,6 +72,7 @@ class AdminView extends React.Component {
         return (
                 <div>
                     <Items arrayItems={arrayItems} dataItems={dataItems} />
+                    <hr className="divisor"/>
                     <Users arrayUsers={arrayUsers} dataUsers={dataUsers} />
                 </div>
             )
@@ -72,18 +80,22 @@ class AdminView extends React.Component {
 
 }
 
-
 class Items extends React.Component{
     render(){
+        console.log(this.props.arrayItems);
         if(this.props.arrayItems.length > 0){
             return(
-                <div id="items" className="table-responsive">
-                    <h2> Resumen de Visitas y Compras por Item</h2>
-                    <table className="table table-hover">
-                        <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
-                        <ItemsList items={this.props.arrayItems} />
-                    </table>
-                    <ChartView data={this.props.dataItems} chartID={"itemsChart"}/>
+                <div>
+                    <div id="items" className="table-responsive tableContainer">
+                        <h2> Top 10 de Visitas y Compras por Item</h2>
+                        <table className="table table-hover">
+                            <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
+                            <ItemsList items={this.props.arrayItems} />
+                        </table>
+                    </div>
+                    <div className="margen15">
+                        <ChartView data={this.props.dataItems} chartID={"itemsChart"}/>
+                    </div>
                 </div>
             )
         }
@@ -98,16 +110,21 @@ class Items extends React.Component{
 
 class Users extends React.Component{
     render(){
+        console.log("Users");
         console.log(this.props.arrayUsers);
         if(this.props.arrayUsers.length > 0){
             return(
-                <div id="usuarios" className="table-responsive">
-                    <h2> Resumen de Visitas y Compras por Usuario</h2>
-                    <table className="table table-hover">
-                        <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
-                        <UsuariosList usuarios={this.props.arrayUsers}/>
-                    </table>
-                    <ChartView data={this.props.dataUsers} chartID={"usersChart"}/>
+                <div>
+                    <div id="usuarios" className="table-responsive tableContainer">
+                        <h2> Top 10 de Visitas y Compras por Usuario</h2>
+                        <table className="table table-hover">
+                            <thead><tr><td>Item</td><td>Visitas</td><td>Compras</td><td>% de compra</td></tr></thead>
+                            <UsuariosList usuarios={this.props.arrayUsers}/>
+                        </table>
+                    </div>
+                    <div className="margen15">
+                        <ChartView data={this.props.dataUsers} chartID={"usersChart"}/>
+                    </div>
                 </div>
             )
         }
@@ -151,7 +168,10 @@ class UsuariosList extends React.Component{
 class Detail extends React.Component{
     render(){
 
-        let porcentaje = ((this.props.compras * 100) / this.props.visitas).toFixed(2);
+        let porcentaje = 0;
+        if(this.props.compras != 0 && this.props.visitas != 0){
+            porcentaje = ((this.props.compras * 100) / this.props.visitas).toFixed(2);
+        }
         return(
             <tr>
                 <td>{this.props.nombre}</td>
@@ -197,8 +217,7 @@ class ChartView extends React.Component {
                     columns={this.state.columns}
                     options={this.state.options}
                     graph_id={this.props.chartID}
-                    width="80%"
-                    height="300px"
+                    width="70%"
                     legend_toggle
                 />
             );

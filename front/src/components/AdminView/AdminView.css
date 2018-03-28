@@ -1,0 +1,22 @@
+thead{
+    font-size: large;
+    font-weight: bold;
+}
+
+.tableContainer{
+    width: 70% !important;
+    margin-left: 15% !important;
+}
+
+.margen15 {
+    width: 100%;
+    margin-left: 15%;
+}
+
+.divisor{
+    color: #080808;
+    background-color: #080808;
+    height:1px;
+    border-width:0;
+    width: 90%;
+}

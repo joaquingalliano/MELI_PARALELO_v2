@@ -25,6 +25,10 @@ class Navbar extends Component {
         window.location.href = "/";
     }
 
+    adminView(e){
+        window.location.href = "/admin";
+    }
+
     handleSearchText(e) {
         if (e.key === 'Enter') {
             this.search();
@@ -61,6 +65,9 @@ class Navbar extends Component {
                                     <div className="col-lg-8">
                                         <p className="text-left"><strong>{user.name + " " + user.surname}</strong></p>
                                         <p className="text-left small">{user.email}</p>
+                                        <p>
+                                            <button onClick={this.adminView} className="btn btn-primary btn-block">Ver Estadísticas</button>
+                                        </p>
                                     </div>
                                 </div>
                             </div>
