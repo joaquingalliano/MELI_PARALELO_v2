@@ -8,10 +8,11 @@ class UserService {
     def Integer getCuponesUsuario(Integer idUsuario) {
         DataService dataService = new DataService()
 
-        //def url = 'http://localhost:8080/users/' + idUsuario
+        def url = 'http://localhost:8080/users/' + idUsuario
 
         //URL del mockServer
-        def url = 'http://localhost:7070/users/q=' + idUsuario
+
+        //def url = 'http://localhost:7070/users/q=' + idUsuario
 
         try{
             def inputStream = dataService.findByApi(url)
@@ -21,7 +22,7 @@ class UserService {
                 cupones = 0
             }
             return cupones
-        }catch(Exception ex){
+        }catch(Exception ex) {
             return 0
         }
     }

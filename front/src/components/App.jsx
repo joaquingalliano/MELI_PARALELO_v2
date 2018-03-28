@@ -4,6 +4,7 @@ import Item from './Item/Item';
 import LoginPage from './Login';
 import RegisterPage from './Register';
 import ShoppingCart from './ShoppingCart/ShoppingCart';
+import AdminPage from './AdminView/AdminView';
 import {
     BrowserRouter as Router,
     Route
@@ -20,6 +21,7 @@ class App extends Component {
                     <Route exact path="/login" component={LoginPage} />
                     <Route exact path="/register" component={RegisterPage} />
                     <Route exact path="/carrito" component={ShoppingCart} />
+                    <Route path="/admin" component={AdminPage} />
                 </div>
             </Router>
         );

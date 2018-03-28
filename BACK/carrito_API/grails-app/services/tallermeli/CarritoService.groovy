@@ -132,7 +132,13 @@ class CarritoService {
             if (itemDetail == null){
 
             } else {
-                Item itemNuevo = itemService.createItem(itemDetail.item_id, 1, Double.parseDouble(itemDetail.price), itemDetail.image, itemDetail.title, carrito.idCarrito)
+                String picture;
+                try{
+                    picture = itemDetail.pictures[0].url
+                } catch (Exception ex) {
+                    picture = ""
+                }
+                Item itemNuevo = itemService.createItem(itemDetail.id, 1, itemDetail.price, picture, itemDetail.title, carrito.idCarrito)
                 lista.add(itemNuevo)
                 carrito.items = lista
                 carritos.put(carrito.idCarrito, carrito)
