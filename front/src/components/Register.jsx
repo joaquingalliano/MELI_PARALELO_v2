@@ -1,9 +1,8 @@
-import React from 'react';
-//import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
-
+import React           from 'react';
+import { connect }     from 'react-redux';
 import { userActions } from '../_actions';
-import strings from '../lang/languajes';
+import strings         from '../lang/languajes';
+import PropTypes       from 'prop-types';
 
 class RegisterPage extends React.Component {
     constructor(props) {
@@ -15,8 +14,7 @@ class RegisterPage extends React.Component {
                 surname: '',
                 email: '',
                 password: '',
-                preferences: [],
-                lenguage: 'english'
+                preferences: []
             },
             categories: [],
             submitted: false
@@ -71,8 +69,9 @@ class RegisterPage extends React.Component {
     }
 
     render() {
+        console.log(this.context.language);
         var categ = this.state.categories;
-        const lang = strings[this.state.user.lenguage];
+        const lang = strings[this.context.language];
         const estilo ={overflowX: 'scroll', height: '200px', columnCount: '2'}
         const labelS={height: '34px'}
         const { registering  } = this.props;
@@ -142,7 +141,9 @@ function mapStateToProps(state) {
     };
 }
 
-//export default RegisterPage
+RegisterPage.contextTypes = {
+    language: PropTypes.string
+};
+
 
  export default connect(mapStateToProps)(RegisterPage);
-// export { connectedRegisterPage as RegisterPage };

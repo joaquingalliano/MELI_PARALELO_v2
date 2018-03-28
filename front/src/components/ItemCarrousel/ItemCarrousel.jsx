@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import NotFound from '../NotFound/NotFound';
 import {Link} from 'react-router-dom';
 import './ItemCarrousel.css';
+import strings         from '../../lang/languajes';
+import PropTypes       from 'prop-types';
 
 class ItemCarrousel extends Component {
 
@@ -38,6 +40,7 @@ class ItemCarrousel extends Component {
     }
 
     render() {
+
         let currentIndex = this.state.currentItemIndex;
         let item = this.props.data[currentIndex];
         if (item) {
@@ -68,6 +71,8 @@ class ItemCarrousel extends Component {
 
 class CarrouselItem extends Component {
     render() {
+        const lang = strings[this.context.language];
+
         let itemID         = this.props.itemID;
         let title          = this.props.title;
         let state          = this.props.state;
@@ -89,9 +94,9 @@ class CarrouselItem extends Component {
                     <h4>{title}</h4>
                     <h1>${price}</h1>
                     <p className="carrouselItemLocation">
-                        Ubicacion: {city} - {state} - {country}
+                        {lang.principal.ubicacion}: {city} - {state} - {country}
                     </p>
-                    <h3>Descripcion: </h3>
+                    <h3>{lang.principal.descripcion}: </h3>
                     <p className="carrouselItemDescription">
                         {description}
                     </p>
@@ -105,5 +110,8 @@ class CarrouselItem extends Component {
         );
     }
 }
+CarrouselItem.contextTypes = {
+    language: PropTypes.string
+};
 
 export default ItemCarrousel;

@@ -6,6 +6,8 @@ import {
     Route,
     Link
 } from 'react-router-dom';
+import strings         from '../lang/languajes';
+import PropTypes       from 'prop-types';
 
 class ItemsApp extends React.Component {
 

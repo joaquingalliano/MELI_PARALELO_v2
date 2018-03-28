@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import './ItemGrid.css';
+import PropTypes       from 'prop-types';
+import strings from "../../lang/languajes";
 
 class ItemGrid extends Component {
     render() {
@@ -29,6 +31,8 @@ class ItemGrid extends Component {
 
 class ItemCell extends Component {
     render() {
+        const lang = strings[this.context.language];
+
         let id       = this.props.itemID;
         let index    = this.props.index;
         let imagen   = this.props.image;
@@ -50,7 +54,7 @@ class ItemCell extends Component {
                         <div>
                             <h4>{title}</h4>
                             <p>
-                                Ubicacion: {ciudad} - {estado} - {pais}
+                                {lang.principal.ubicacion}: {ciudad} - {estado} - {pais}
                             </p>
                         </div>
                     </div>
@@ -66,5 +70,8 @@ class ItemCell extends Component {
 export {
     ItemCell
 }
+ItemCell.contextTypes = {
+    language: PropTypes.string
+};
 
 export default ItemGrid;

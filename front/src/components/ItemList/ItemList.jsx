@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from 'react-router-dom';
 import './ItemList.css';
+import strings         from '../../lang/languajes';
+import PropTypes       from 'prop-types';
 
 class ItemList extends Component {
     render() {
@@ -31,6 +33,7 @@ class ItemList extends Component {
 
 class ItemRow extends Component {
     render() {
+        const lang = strings[this.context.language];
         let id       = this.props.itemID;
         let imagen   = this.props.image;
         let title    = this.props.title;
@@ -45,24 +48,28 @@ class ItemRow extends Component {
 
         return(
             <div className="itemRow" style={{"--time": (index * timeMultiplier)  + "s"}}>
-                <Link to={itemURL}>
+                <a href={itemURL}>
                     <div className="itemRowImage">
                         <img src={imagen} alt="thumbnail" />
                     </div>
                     <div className="itemRowDescription">
                         <h4>{title}</h4>
                         <p className="itemRowDate">
-                            Fecha: {date}
+                            {lang.principal.fecha}: {date}
                         </p>
                         <h2>$ {precio}</h2>
                         <p className="itemRowUbication">
-                            Ubicacion: {ciudad} - {estado} - {pais}
+                            {lang.principal.ubicacion}: {ciudad} - {estado} - {pais}
                         </p>
                     </div>
-                </Link>
+                </a>
             </div>
         );
     }
 }
+
+ItemRow.contextTypes = {
+    language: PropTypes.string
+};
 
 export default ItemList;

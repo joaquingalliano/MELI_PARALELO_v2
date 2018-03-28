@@ -1,6 +1,7 @@
 export default {
     spanish: {
     iniciarSesion: {
+        i:'Iniciar Sesion',
         email: 'E-mail',
         contraseña: 'Contraseña',
         ingresar: 'Ingrear',
@@ -20,7 +21,13 @@ export default {
     principal:
     {
         iniciarSesion: 'Iniciar sesión',
+        fecha:'Fecha',
+        f:'Filtro',
+        cat:'Categoria',
+        tod:'Todos',
+        bus:'Busqueda',
         ubicacion: 'Ubicación',
+        descripcion:'Descripción',
         precio: 'Precio'
     },
     detalleItem:
@@ -41,7 +48,8 @@ export default {
 },
     english: {
      iniciarSesion: {
-        email: 'E-mail',
+         i:'Log in',
+         email: 'E-mail',
         contraseña: 'Password',
         ingresar: 'Log in',
         registrarse: 'Sign in'
@@ -62,7 +70,13 @@ export default {
     principal:
     {
         iniciarSesion: 'Log in',
+        fecha:'Date',
+        f:'Filter',
+        cat:'Category',
+        bus:'Search',
+        tod:'All',
         ubicacion: 'Location',
+        descripcion:'Description',
         precio: 'Price'
     },
     detalleItem:
@@ -83,7 +97,9 @@ export default {
 },
     portuguese: {
         iniciarSesion: {
-        email: 'E-mail',
+            i:'Iniciar Sesion',
+
+            email: 'E-mail',
         contraseña: 'Password',
         ingresar: 'Entre',
         registrarse: 'Cadastre-se'
@@ -101,7 +117,13 @@ export default {
     principal:
     {
         iniciarSesion: 'Entre',
+        fecha:'Date',
+        cat:'Categoria',
+        f:'Filtro',
+        tod:'Todos',
+        bus:'Pesquisar',
         ubicacion: 'Localização',
+        descripcion:'Descripção',
         precio: 'Preco'
     },
     detalleItem:

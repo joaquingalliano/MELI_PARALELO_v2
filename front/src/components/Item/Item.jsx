@@ -4,6 +4,8 @@ import NotFound from '../NotFound/NotFound';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import {ItemCell} from '../ItemGrid/ItemGrid';
 import './Item.css';
+import strings         from '../../lang/languajes';
+import PropTypes       from 'prop-types';
 
 class Item extends Component {
 
@@ -104,6 +106,7 @@ class Item extends Component {
         let error = this.state.error;
         let total;
         let relacionados;
+        const lang = strings[this.context.language];
 
         if (!this.state.cargando) {
             if (this.state.item) {
@@ -115,6 +118,7 @@ class Item extends Component {
                     let randIndex = Math.floor(Math.random() * this.state.relacionados.length);
                     relacionados.push(this.state.relacionados[randIndex]);
                 }
+                console.log(relacionados);
             }
             else {
                 error = 404;
@@ -147,9 +151,9 @@ class Item extends Component {
                         <div className="itemData">
                             <h3 className="itemTitle">{item ? item.title : ""}</h3>
                             <div className="itemSubData">
-                                <h3>Price: ${item ? item.price : ""}</h3>
-                                <h3>Shipping: $25</h3>
-                                <h3>Quantity:
+                                <h3>{lang.detalleItem.precio}: ${item ? item.price : ""}</h3>
+                                <h3>{lang.detalleItem.envio}: $25</h3>
+                                <h3>{lang.detalleItem.cantidad}:
                                     <input type="number"
                                             min="1"
                                             max={this.state.item.available_quantity}
@@ -160,7 +164,7 @@ class Item extends Component {
                                 <h2>Total: ${total}</h2>
                                 <div className="itemButtons">
                                     <button className="btnCart" id="btnCart"
-                                        onClick={function(e){componente.agregarACarrito()}}>Agregar a Carrito</button>
+                                        onClick={function(e){componente.agregarACarrito()}}>{lang.detalleItem.botonCarrito}</button>
                                 </div>
                                 <script>
                                     
@@ -169,7 +173,7 @@ class Item extends Component {
                         </div>
                     </div>
                     <div className="itemBody">
-                        <h1>Caracteristicas</h1>
+                        <h1>{lang.detalleItem.caracteristicas}</h1>
                         <div className="container-fluid">
                             <div className="col-xs-12" stlye={{"word-wrap": "break-word"}}>
                                 <p>
@@ -180,7 +184,7 @@ class Item extends Component {
                     </div>
                 </div>
                 <div className="col-xs-12 col-sm-8 col-sm-offset-2 itemRelacionados">
-                    <h1>Productos relacionados: </h1>
+                    <h1>{lang.detalleItem.destacados}</h1>
                     <div className="items">
                         {
                             relacionados.map((item, index) =>
@@ -247,5 +251,9 @@ class Carrousel extends Component {
         );
     }
 }
+
+Item.contextTypes = {
+    language: PropTypes.string
+};
 
 export default Item;

@@ -6,6 +6,8 @@ import ItemCarrousel        from '../ItemCarrousel/ItemCarrousel';
 import LoadingSpinner       from '../LoadingSpinner/LoadingSpinner';
 import NotFound             from '../NotFound/NotFound';
 import queryString          from 'query-string';
+import strings         from '../../lang/languajes';
+import PropTypes       from 'prop-types';
 
 class ItemDisplay extends Component {
     constructor() {
@@ -143,6 +145,9 @@ class ItemDisplay extends Component {
     }
 
     render() {
+        console.log("Lenguaje: " + this.context.language);
+        const lang = strings[this.context.language];
+
         const buttonGroup = (
             <div className="col-xs-12 buttonGroup">
                 <button className="btn btn-white glyphicon glyphicon-th"
@@ -198,19 +203,19 @@ class ItemDisplay extends Component {
             <div>
                 {buttonGroup}
                 <div className="col-xs-3 filtros">
-                    <h2>Filtros</h2>
+                    <h2>{lang.principal.f}</h2>
                     <div className="form-group">
-                        <h5>Categoria</h5>
+                        <h5>{lang.principal.cat}</h5>
                         <select ref="categoriaSeleccionada" id="categorias"
                             name="categorias"
                             className="form-control"
                             >
-                            <option value="0">Todas</option>
+                            <option value="0">{lang.principal.tod}</option>
                             {options}
                         </select>
                     </div>
                     <button className="btn btnFiltrar"
-                        onClick={this.filtrar}>Filtrar</button>
+                        onClick={this.filtrar}>{lang.principal.f}</button>
                 </div>
 
                 <div className="itemListing col-xs-offset-3 col-xs-7">
@@ -220,5 +225,9 @@ class ItemDisplay extends Component {
         );
     }
 }
+
+ItemDisplay.contextTypes = {
+    language: PropTypes.string
+};
 
 export default ItemDisplay;
